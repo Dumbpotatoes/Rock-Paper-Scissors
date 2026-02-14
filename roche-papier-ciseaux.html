@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roche Papier Ciseaux</title>
+
+    <style>
+        body{
+            text-align: center;
+            background-image: url(Img-Playground.png); /*Image d'arriere plan*/
+            background-color: black;
+            background-size: cover; /*Image couvre toute la surface de l'élément*/
+            background-repeat: no-repeat; /*Image ne se repete pas*/
+        }
+        #playButton{ /*proprietes de l'element avec ce id*/
+            width: 500px;
+            height: 100px;
+            background-color: whitesmoke;
+            border-radius: 20px; /*Arrondis coins*/
+            border: none; 
+            font-size: 80px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /*Change de police*/
+            margin: auto; /*Centre horizontalement*/
+            margin-top: 250px; /*Distance du haut*/
+        }
+        #menuButton{
+            width: 500px;
+            height: 100px;
+            background-color: whitesmoke;
+            border-radius: 20px;
+            border: none;
+            font-size: 80px;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        #enemyPreview{
+            width: 400px;
+            height: 400px;
+            background-image: url(Img-Enemy_Person.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: auto;
+        }
+        #difficultyMinus{
+            width: 80px;
+            height: 80px;
+            background-color: rgb(111, 214, 111);
+            border-radius: 10px;
+            border: none;
+            padding: 5px; /*Distance texte de bordure*/
+            font-size: 50px;
+        }
+        #difficultyPlus{
+            width: 80px;
+            height: 80px;
+            background-color: rgb(248, 77, 77);
+            border-radius: 10px;
+            border: none;
+            padding: 5px;
+            font-size: 50px;
+        }
+        #resultMessage{
+            position: absolute; /*Positionement selon les directions et n'affecte pas d'autre élément, mais c'est tres affreux si vous changer la taille de l'ecran T_T*/
+            top: 125px;
+            left: 610px;
+            width: 700px;
+            height: 50px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 100px;
+        }
+        #timer{
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 100px;
+        }
+        #skipButton{
+            margin: auto;
+            text-align: center;
+            height: 200px;
+            width: 400px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 100px;
+        }
+        #skipButton:hover{ /*Quand le curseur est sur l'element change ses proprietes*/
+            color: rgb(77, 46, 32);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 110px;
+            cursor: pointer; /*Quand curseur est sur l'element il change*/
+        }
+        #options{
+            position: absolute;
+            top: 200px;
+            left: 90px;
+        }
+        #optionRock{
+            width: 240px;
+            height: 240px;
+            background-image: url(Img-Rock_Hand.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        #optionPaper{
+            width: 240px;
+            height: 240px;
+            background-image: url(Img-Paper_Hand.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center; /*Image est vraiment au centre de l'element*/
+            cursor: pointer;
+        }
+        #optionScissors{
+            width: 240px;
+            height: 240px;
+            background-image: url(Img-Scissors_Hand.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        #player{
+            position: absolute;
+            top: 400px;
+            left: 220px;
+            width: 450px;
+            height: 500px;
+            background-image: url(Img-Player.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #playerHP{
+            position: absolute;
+            top: 400px;
+            left: 335px;
+            width: 225px; /*trois fois la base de l'image pour creer 3 fois l'image, pour faire la barre de vie*/
+            height: 75px;
+            background-image: url(Img-Heart.png);
+        }
+        #playerChoice{
+            position: absolute;
+            top: 500px;
+            left: 750px;
+            width: 200px;
+            height: 200px;
+            background-image: url(Img-Unknown.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        #playerChoice2{
+            position: absolute;
+            top: 700px;
+            left: 750px;
+            width: 200px;
+            height: 200px;
+            background-image: url(Img-Unknown.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            cursor: pointer;
+        }
+        #enemy{
+            position: absolute;
+            top: 400px;
+            right: 160px;
+            width: 500px;
+            height: 500px;
+            background-image: url(Img-Enemy_Person.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #enemyHP{
+            position: absolute;
+            top: 400px;
+            right: 300px;
+            width: 225px;
+            height: 75px;
+            background-image: url(Img-Heart.png);
+        }
+        #enemyChoice{
+            position: absolute;
+            top: 500px;
+            right: 750px;
+            width: 200px;
+            height: 200px;
+            background-image: url(Img-Unknown.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #enemyChoice2{
+            position: absolute;
+            top: 700px;
+            right: 750px;
+            width: 200px;
+            height: 200px;
+            background-image: url(Img-Unknown.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .hide{
+            display: none; /*Class si un element le possede il devient invisible*/
+        }
+        .inline-block-child{
+            display: inline-block;        /*https://stackoverflow.com/questions/4938716/align-div-elements-side-by-side je sais pas comment ca fonctionne, mais c'est tellement beau T_T*/
+        }
+    </style>
+
+</head>
+<body>
+    <button id="playButton" onclick="play()">Jouer</button> 
+    <button id="menuButton" onclick="acessMenu()" class="hide">Menu</button>
+    <div id="enemyPreview"></div>
+    <button id="difficultyMinus" onclick="lowerDifficulty()">-</button>
+    <button id="difficultyPlus" onclick="increaseDifficulty()">+</button>
+
+    <div id="resultMessage"></div>
+
+    <div>
+        <p id="timer" class="hide">10</p>
+        <div id="skipButton" class="hide" onclick="skip()">>></div>
+    </div>
+    <div id="options" class="parent hide">
+        <div id="optionRock" onclick="chooseRock()" class="child inline-block-child"></div> 
+        <div id="optionPaper" onclick="choosePaper()" class="child inline-block-child"></div>
+        <div id="optionScissors" onclick="chooseScissors()" class="child inline-block-child"></div>
+    </div>
+    <div id="player" class="hide"></div>
+    <div id="playerHP" class="hide"></div>
+    <div id="playerChoice" onclick="chooseChoice1()" class="hide"></div>
+    <div id="playerChoice2" onclick="chooseChoice2()" class="hide"></div>
+    <div id="enemy" class="hide"></div>
+    <div id="enemyHP" class="hide"></div>
+    <div id="enemyChoice" class="hide"></div>
+    <div id="enemyChoice2" class="hide"></div>
+
+    <script>
+        var difficulty = 1
+        var playerHealth = 3
+        var playerHPCount = 225 
+        var enemyHealth = 3
+        var enemyHPCount = 225
+        var rock = 0
+        var paper = 0
+        var scissors = 0
+        var timeLeft = 10
+        var squidGameMode = false //Mode ou tu choisis initialement deux options puis rechoisis un de ses deux options, inspiré de squidgame :-)
+        var activeTimer = 0
+        var choice1 = ""
+        var choice2 = ""
+        var enemySelect = 0
+        var enemySelect2 = 0
+        var enemyFinalChoice = 0
+        var secondChoice = false
+        var win = false
+        var lose = false
+        var tie = false
+
+
+        var timeTickerAudio = new Audio() //donne un audio a une variable pour pouvoir l'activer plus tard
+        timeTickerAudio.src="sfx-tick.mp3"
+        var timeoutAudio = new Audio()
+        timeoutAudio.src="sfx-timeout.mp3"
+        var winAudio = new Audio()
+        winAudio.src="sfx-win.mp3"
+        var loseAudio = new Audio()
+        loseAudio.src="sfx-lose.mp3"
+        var victoryAudio = new Audio()
+        victoryAudio.src="sfx-victory.mp3"
+        var gameoverAudio = new Audio()
+        gameoverAudio.src="sfx-gameover.mp3"
+
+        var rockSelectAudio = new Audio()
+        rockSelectAudio.src="sfx-rock.mp3"
+        var paperSelectAudio = new Audio()
+        paperSelectAudio.src="sfx-paper.mp3"
+        var scissorsSelectAudio = new Audio()
+        scissorsSelectAudio.src="sfx-scissors.mp3"
+
+        function play(){
+            if(difficulty >= 4){ //squidgameMode seuleument actif quand difficulté est 4 ou plus
+                squidGameMode = true 
+            }
+            playButton.classList.add("hide") //Ajoute ou enleve la classe hide pour faire apparaitre ou disparaitre un element
+            enemyPreview.classList.add("hide")
+            difficultyMinus.classList.add("hide")
+            difficultyPlus.classList.add("hide")
+            timer.classList.remove("hide")
+            skipButton.classList.remove("hide")
+            player.classList.remove("hide")
+            playerChoice.classList.remove("hide")
+            playerHP.classList.remove("hide")
+            enemy.classList.remove("hide")
+            enemyChoice.classList.remove("hide")
+            enemyHP.classList.remove("hide")
+            options.classList.remove("hide")
+            start()
+        }
+        function lowerDifficulty(){ //diminue difficulte et montre les ennemies a venir
+            if(difficulty > 1){ //fonctionne seuleument si c'est 2 ou plus donc assure que difficulté peut pas aller en bas de 0
+                difficulty -= 1
+            }
+            if(difficulty == 1){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Person.png)" //change l'image d'un element https://www.geeksforgeeks.org/javascript/how-to-change-background-image-in-javascript/
+            }
+            if(difficulty == 2){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Bow.png)"
+            }
+            if(difficulty == 3){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Headphones.png)"
+            }
+            if(difficulty == 4){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Grandma.png)"
+            }
+            if(difficulty == 5){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Adult.png)"
+            }
+            if(difficulty == 6){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Unknown.png)"
+            }
+        }
+        function increaseDifficulty(){ //augmente difficulte et montre les ennemies a venir
+            if(difficulty < 6){ //assure que ca peut pas aller en au de 6
+                difficulty += 1
+            }
+            if(difficulty == 1){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Person.png)"
+            }
+            if(difficulty == 2){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Bow.png)"
+            }
+            if(difficulty == 3){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Headphones.png)"
+            }
+            if(difficulty == 4){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Grandma.png)"
+            }
+            if(difficulty == 5){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Adult.png)"
+            }
+            if(difficulty == 6){
+                document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Unknown.png)"
+            }
+        }
+        function start(){
+            document.getElementById("enemy").style.width = 500 + "px"  //comme le .style.backgroundImage utiliser pour changer des elements dans le css
+            document.getElementById("enemy").style.height = 500 + "px"
+            if(difficulty == 1){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Person.png)" //change l'enemie (l'apparence) et defois le quantite de vie selon difficulte
+            }
+            if(difficulty == 2){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Bow.png)"
+                enemyHealth += 1
+            }
+            if(difficulty == 3){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Headphones.png)"
+                enemyHealth += 2
+            }
+            if(difficulty == 4){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Grandma.png)"
+            }
+            if(difficulty == 5){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Adult.png)" //pour le rendre gros modifie positionnement et grandeur
+                document.getElementById("enemy").style.width = 700 + "px"
+                document.getElementById("enemy").style.height = 950 + "px"
+                document.getElementById("enemy").style.top = 0 + "px"
+                document.getElementById("enemy").style.right = 50 + "px"
+                document.getElementById("enemyHP").style.right = 500 + "px"
+                enemyHealth += 2
+            }
+            if(difficulty == 6){
+                document.getElementById("enemy").style.backgroundImage = "url(Img-Enemy_Potato.png)" //je voulais faire plus avec lui mais pas le temps :(
+                enemyHealth += 7
+            }
+            heartUpdate()
+            countdown() 
+
+        }
+        function countdown(){  //chrono
+            timeLeft = 10
+            if(squidGameMode == true){ //montre la deuxieme "slot" 
+                playerChoice2.classList.remove("hide")
+                enemyChoice2.classList.remove("hide")
+            } else {
+                enemySelection() //squidgamemore est seulement present pour difficulte 4+ donc ce enemyselection est pour difficulte 1-2-3 et c'est pour permettre a vouz montrer le choix de l'enemie en avance
+            }
+            activeTimer = setInterval(()=>{  //chaque seconde enleve 1 de timeleft jusqua 0
+                timeLeft-- 
+                timeTickerAudio.play() //joue l'audio
+                document.getElementById("timer").textContent = timeLeft //change le contenu du chrono a la nouvelle quantite de temps restant
+                if(timeLeft == 0){
+                    timeoutAudio.play()
+                    clearInterval(activeTimer) // arrete l'interval
+                    document.getElementById("timer").textContent = 0
+                    options.classList.add("hide")
+                    if(squidGameMode == false){ //si pas difficulte 4+ commence immediatement comparaison des choix
+                        compare()
+                    } else {
+                        if(enemyFinalChoice == 0){ //sinon commence selection pour difficulte 4+
+                            enemySelection()
+                            secondSelection()
+                        } else { //si selection 4+ deja fait compare les resultats
+                            secondChoice = false //si pas fait deuxieme choix arrete la possibilité d'activier les fonctions
+                            compare()
+                        }
+                    }
+                }
+            },1000) //a chaque 1000 milisecondes fait l'interval
+        }
+        function skip(){ //saute le chrono
+            timeLeft = 1 //va a 1 simplement pour pas que par chance ca arrive just avant le -1 est va dans les negatifs
+        }
+        function chooseRock(){ //option de roche
+            rock += 1 //compte en nombre pour compter combien fois tu sleectionne un choix 
+            rockSelectAudio.play()
+            if(scissors + paper + rock == 1){ //si vient juste de faire premier choix met choix dans premiere option
+                document.getElementById("playerChoice").style.backgroundImage = "url(Img-Rock_Hand.png)"
+                choice1="rock" //seuleument utile si squidgamemode
+                if(squidGameMode == false){ //si pas difficulte 4+ cache les options pour pas pouvoir les clicker
+                    options.classList.add("hide")
+                }
+            }
+            if(scissors + paper + rock >= 2){ //si = 2 (ou plus grand pour etre sur que tu peux pas le briser) met le choix dans 2e options
+                choice2="rock"
+                document.getElementById("playerChoice2").style.backgroundImage = "url(Img-Rock_Hand.png)"
+                options.classList.add("hide")
+            }
+        }
+        function choosePaper(){ //option papier
+            paper += 1
+            paperSelectAudio.play()
+            if(scissors + paper + rock == 1){
+                document.getElementById("playerChoice").style.backgroundImage = "url(Img-Paper_Hand.png)"
+                choice1= "paper"
+                if(squidGameMode == false){
+                    options.classList.add("hide")
+                }
+            }
+            if(scissors + paper + rock >= 2){
+                choice2="paper"
+                document.getElementById("playerChoice2").style.backgroundImage = "url(Img-Paper_Hand.png)"
+                options.classList.add("hide")
+            }
+        }
+        function chooseScissors(){ //options ciseaux
+            scissors += 1
+            scissorsSelectAudio.play()
+            if(scissors + paper + rock == 1){
+                document.getElementById("playerChoice").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+                choice1="scissors"
+                if(squidGameMode == false){
+                    options.classList.add("hide")
+                }
+            }
+            if(scissors + paper + rock >= 2){
+                choice2="scissors"
+                document.getElementById("playerChoice2").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+                options.classList.add("hide")
+            }  
+        }
+        function enemySelection(){
+            enemySelect = Math.ceil(Math.random()*3) //selection 1,2 ou 3 et selon nombre choisi roche papier ou ciseau
+            if(enemySelect == 1){
+                enemySelect = "rockEnemy"
+            }
+            if(enemySelect == 2){
+                enemySelect = "paperEnemy"
+            }
+            if(enemySelect == 3){
+                enemySelect = "scissorsEnemy"
+            }
+            if(difficulty == 1 || difficulty == 2){ //si difficulte 1-2 permet de voir l'option par console
+                console.log(enemySelect)
+            }
+            if(squidGameMode == true){ //si difficulte 4+ commence deuxieme selection 
+                enemySelection2()
+            }
+        }
+        function enemySelection2(){ //squidgamemode
+            enemySelect2 = Math.ceil(Math.random()*3)
+            if(enemySelect2 == 1){
+                enemySelect2 = "rockEnemy"
+            }
+            if(enemySelect2 == 2){
+                enemySelect2 = "paperEnemy"
+            }
+            if(enemySelect2 == 3){
+                enemySelect2 = "scissorsEnemy"
+            }
+            if(enemySelect == enemySelect2 && difficulty >= 5){ //pour rendre 5-6 plus difficile si il choisis meme deux options (pas tres bon strategiquement) refait la selection jusqua qu'ils sont differents
+                enemySelection2()
+            }  
+        }
+        function chooseChoice1(){ //squidgamemode
+            if(secondChoice==true){ //seulement active si variable est true
+                if(choice1 == "rock"){  //si egale au choix done 1 a la variable associer pour que ca soit compatible avec le mode normal
+                    rock = 1
+                }
+                if(choice1 == "paper"){
+                    paper = 1
+                }
+                if(choice1 == "scissors"){
+                    scissors = 1
+                }
+                secondChoice = false //arrete que fonction peut etre activer deux fois
+                playerChoice2.classList.add("hide") 
+            }
+        }
+        function chooseChoice2(){ //squidgamemode
+            if(secondChoice == true){
+                if(choice2 == ""){ //si choisis rien bein ta rien ._. se passe seuleument si ta choisis aucun options ou seuleument 1
+                    document.getElementById("playerChoice").style.backgroundImage = "url(Img-Unknown.png)"
+                }
+                if(choice2 == "rock"){
+                    rock = 1
+                    document.getElementById("playerChoice").style.backgroundImage = "url(Img-Rock_Hand.png)"
+                }
+                if(choice2 == "paper"){
+                    paper = 1
+                    document.getElementById("playerChoice").style.backgroundImage = "url(Img-Paper_Hand.png)"
+                }
+                if(choice2 == "scissors"){
+                    scissors = 1
+                    document.getElementById("playerChoice").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+                }
+                secondChoice = false
+                playerChoice2.classList.add("hide")
+            }
+        }
+        function secondSelection(){ //squigamemode
+            secondChoice = true //pertmer de faire choix entre les deux options choisis
+            rock = 0 //efface les donnes pour avoir les nouvelles des choix
+            paper = 0
+            scissors = 0
+            if(enemySelect == "rockEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Rock_Hand.png)"
+            }
+            if(enemySelect == "paperEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Paper_Hand.png)"
+            }
+            if(enemySelect == "scissorsEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+            }
+            if(enemySelect2 == "rockEnemy"){
+                document.getElementById("enemyChoice2").style.backgroundImage = "url(Img-Rock_Hand.png)"
+            }
+            if(enemySelect2 == "paperEnemy"){
+                document.getElementById("enemyChoice2").style.backgroundImage = "url(Img-Paper_Hand.png)"
+            }
+            if(enemySelect2 == "scissorsEnemy"){
+                document.getElementById("enemyChoice2").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+            }
+            enemyFinalChoice = Math.ceil(Math.random()*2) //choisis entre 1 et 2 pour choisir sa premier option ou deuxieme
+            if(enemyFinalChoice == 2){  //si egale deux ca choisis deuxieme options et si 1 ca garde la valeur de enemyselect
+                enemySelect = enemySelect2 //change enemyselect au deuxieme puisqu'on utilise enemyselect pour comparer
+            }
+            countdown() //relance chrono
+        }
+        function compare(){
+            if (squidGameMode == true){
+                enemyChoice2.classList.add("hide") //cache deuxieme options pour montre celui choisis
+            }
+            if(enemySelect == "rockEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Rock_Hand.png)" //change l'image a loption choisis
+            }
+            if(enemySelect == "paperEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Paper_Hand.png)"
+            }
+            if(enemySelect == "scissorsEnemy"){
+                document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Scissors_Hand.png)"
+            }
+            if(rock == 1){
+                if(enemySelect == "rockEnemy"){ //collectionne resultat en mettant la variable approprier a true
+                    tie = true
+                }
+                if(enemySelect == "paperEnemy"){
+                    lose = true
+                }
+                if(enemySelect == "scissorsEnemy"){
+                    win = true
+                }
+            }
+            if(paper == 1){
+                if(enemySelect == "rockEnemy"){
+                    win = true
+                }
+                if(enemySelect == "paperEnemy"){
+                    tie = true
+                }
+                if(enemySelect == "scissorsEnemy"){
+                    lose = true
+                }
+            }
+            if(scissors == 1){
+                if(enemySelect == "rockEnemy"){
+                    lose = true
+                }
+                if(enemySelect == "paperEnemy"){
+                    win = true
+                }
+                if(enemySelect == "scissorsEnemy"){
+                    tie = true
+                }
+            }
+            if(rock + paper + scissors == 0){ //si 0 avec tout additionner ca veut dire que rien choisis donc auto perdu
+                lose = true
+            }
+            setTimeout(()=>{ //donne 2 secondes de suspense :-)
+                result()
+            },2000)
+        }
+        function result(){
+            if(win == true){ //si gagne enleve vie enemie
+                enemyHealth -= 1 
+                heartUpdate()
+                winAudio.play()
+            }
+            if(lose == true){ //si perd perd 1 vie
+                playerHealth -= 1
+                heartUpdate()
+                loseAudio.play()
+            }
+            if(playerHealth == 0){ //si plus de vie gameover
+                menuButton.classList.remove("hide")
+                document.getElementById("resultMessage").innerText = "GAME OVER!" 
+                resultMessage.classList.remove("hide")
+                gameoverAudio.play()
+                return //arrete le code de la fonction de continuer donc ne reset() pas
+            }
+            if(enemyHealth == 0){
+                menuButton.classList.remove("hide")
+                document.getElementById("resultMessage").innerText = "VICTOIRE!"
+                resultMessage.classList.remove("hide")
+                victoryAudio.play()
+                return
+            }
+            reset()
+            countdown()
+        }
+        function heartUpdate(){ //visuel de la barre de vie
+            playerHPCount = playerHealth*75 // fois 75 pour chaque vie car en pixel c'est 75/coeur
+            enemyHPCount = enemyHealth*75
+            playerHP.style.width=playerHPCount+"px" //change la base a la quantite nouveau
+            enemyHP.style.width=enemyHPCount+"px"
+            if(playerHealth == 2){ //selon vie du joueur change image
+                document.getElementById("player").style.backgroundImage = "url(Img-Player_Angry.png)"
+            }
+            if(playerHealth == 1){
+                document.getElementById("player").style.backgroundImage = "url(Img-Player_Scared.png)"
+            }
+        }
+        function reset(){ //reset les variables importantes pour un round et remontre les choses cacher en cas ou
+            rock = 0
+            paper = 0
+            scissors = 0
+            choice1 = ""
+            choice2 = ""
+            enemySelect = 0
+            enemySelect2 = 0
+            enemyFinalChoice = 0
+            win = false
+            lose = false
+            tie = false
+            options.classList.remove("hide") 
+            document.getElementById("playerChoice").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("playerChoice2").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("enemyChoice2").style.backgroundImage = "url(Img-Unknown.png)"
+        }
+        function acessMenu(){ // quand partie finit completement donc quelqu'un mort bouton pour retourner au menu remet toutes les variables a zero et les elements visuels
+            menuButton.classList.add("hide")
+            difficulty = 1
+            playerHealth = 3
+            playerHPCount = 225
+            enemyHealth = 3
+            enemyHPCount = 225
+            squidGameMode = false
+            rock = 0
+            paper = 0
+            scissors = 0
+            choice1 = ""
+            choice2 = ""
+            enemySelect = 1
+            enemySelect2 = 0
+            enemyFinalChoice = 0
+            secondChoice = false
+            win = false
+            lose = false
+            tie = false
+            clearInterval(activeTimer) 
+            playButton.classList.remove("hide")
+            enemyPreview.classList.remove("hide")
+            difficultyMinus.classList.remove("hide")
+            difficultyPlus.classList.remove("hide")
+            timer.classList.add("hide")
+            skipButton.classList.add("hide")
+            player.classList.add("hide")
+            playerChoice.classList.add("hide")
+            playerHP.classList.add("hide")
+            enemy.classList.add("hide")
+            enemyChoice.classList.add("hide")
+            enemyHP.classList.add("hide")
+            options.classList.add("hide")
+            playerChoice2.classList.add("hide")
+            enemyChoice2.classList.add("hide")
+            resultMessage.classList.add("hide")
+            document.getElementById("enemy").style.width = 500 + "px"
+            document.getElementById("enemy").style.height = 500 + "px"
+            document.getElementById("enemy").style.top = 400 + "px"
+            document.getElementById("enemy").style.right = 160 + "px"
+            document.getElementById("enemyHP").style.right = 300 + "px"
+            document.getElementById("enemyPreview").style.backgroundImage = "url(Img-Enemy_Person.png)"
+            document.getElementById("player").style.backgroundImage = "url(Img-Player.png)"
+            document.getElementById("playerChoice").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("playerChoice2").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("enemyChoice").style.backgroundImage = "url(Img-Unknown.png)"
+            document.getElementById("enemyChoice2").style.backgroundImage = "url(Img-Unknown.png)"
+        }
+    </script>
+
+</body>
+</html>
