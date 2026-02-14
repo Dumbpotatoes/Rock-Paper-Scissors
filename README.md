@@ -22,3 +22,4 @@ In this project I really wanted to integrate my creativity in the visual and in 
 2. Create a functional prototype before working on the visual.
 3. Thoroughly plan out how to code something and how to integrate the other mechanics into it.
 4. Actively modyfying visual and functional elements. (Images, variables for elements)
+5. Need to find better method to postion elements because it looks really bad on other screen sizes. 
